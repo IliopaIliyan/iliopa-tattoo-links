@@ -10,52 +10,76 @@ body{
     margin:0;
     font-family:Arial;
     text-align:center;
-    background:url('https://i.imgur.com/j0iOrrz.jpeg') no-repeat center center fixed;
+    background:url('logo.png.jpg') no-repeat center center fixed;
     background-size:cover;
 }
 
-.bg{
-    backdrop-filter:blur(4px) brightness(0.6);
-    padding:40px 15px;
+.overlay{
+    background:radial-gradient(circle, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.9) 75%);
     min-height:100vh;
+    padding:40px 15px;
+}
+
+/* Лого без ръб – меко преливане */
+.logo{
+    width:160px;
+    max-width:80%;
+    margin:10px auto 30px auto;
+    display:block;
+    filter: drop-shadow(0 0 30px rgba(255,140,60,0.9));
+    mask-image: radial-gradient(circle, black 60%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);
 }
 
 h1{
-    font-size:36px;
-    color:#f18f37;
-    margin-bottom:40px;
+    font-size:34px;
+    color:#ff9b45;
+    margin-bottom:35px;
+    text-shadow:0 0 15px #ff7b00;
 }
 
+/* ⚡ ЕЛЕКТРИЧЕСКИ НЕОНОВИ БУТОНИ */
 a.button{
     display:block;
-    margin:12px auto;
-    padding:18px;
-    width:75%;
-    max-width:350px;
-    border-radius:10px;
-    font-size:20px;
+    margin:20px auto;
+    padding:26px;
+    width:88%;
+    max-width:420px;
+    border-radius:18px;
+    font-size:24px;
     text-decoration:none;
     font-weight:bold;
-    background:#000000cc;
     color:white;
+    background:linear-gradient(145deg, #000, #1a1a1a);
     border:2px solid #ff8c3a;
-    transition:0.3s;
+    box-shadow:0 0 18px #ff8c3a;
+    animation: electric 1.5s infinite alternate;
+    transition:0.2s;
 }
 
 a.button:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 18px #ff8c3a;
+    transform:scale(1.08);
+    box-shadow:0 0 40px #ffb46a;
+}
+
+@keyframes electric{
+    0%{box-shadow:0 0 12px #ff8c3a;}
+    50%{box-shadow:0 0 35px #ffd1a3;}
+    100%{box-shadow:0 0 16px #ff8c3a;}
 }
 </style>
 </head>
 
 <body>
-<div class="bg">
+<div class="overlay">
+
+<img src="logo.png.jpg" class="logo">
+
 <h1>Iliopa Tattoo</h1>
 
 <a class="button" href="https://instagram.com/iliopa" target="_blank">📸 Instagram</a>
 <a class="button" href="https://www.tiktok.com/@iliopatattoo?_r=1&_t=ZN-923RDbzeupi" target="_blank">🎬 TikTok</a>
-<a class="button" href="https://share.google/WArYqvhvZqhWpKZ1C" target="_blank">📍 Google maps</a>
+<a class="button" href="https://share.google/WArYqvhvZqhWpKZ1C" target="_blank">📍 Google Maps</a>
 <a class="button" href="https://facebook.com/iliopatattoo" target="_blank">📘 Facebook</a>
 
 </div>
