@@ -1,87 +1,92 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-<meta charset="UTF-8">
-<title>Iliopa Tattoo Links</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iliopa Tattoo</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: url('logo.png.jpg') no-repeat center center fixed;
+      background-size: cover;
+      animation: pulse-bg 5s ease-in-out infinite;
+      font-family: Arial, sans-serif;
+    }
 
-<style>
-body{
-    margin:0;
-    font-family:Arial;
-    text-align:center;
-    background:url('logo.png.jpg') no-repeat center center fixed;
-    background-size:cover;
-}
+    /* Ефект за пулсиращ фон */
+    @keyframes pulse-bg {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.25); }
+    }
 
-.overlay{
-    background:radial-gradient(circle, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.9) 75%);
-    min-height:100vh;
-    padding:40px 15px;
-}
+    h1 {
+      font-size: 50px;
+      color: #ff8c3a;
+      text-shadow: 0 0 10px #ff6, 0 0 25px #ff8c3a, 0 0 50px #ff4000;
+      animation: flicker 1.5s infinite;
+      margin-bottom: 60px;
+      letter-spacing: 4px;
+      font-weight: bold;
+    }
 
-/* Лого без ръб – меко преливане */
-.logo{
-    width:160px;
-    max-width:80%;
-    margin:10px auto 30px auto;
-    display:block;
-    filter: drop-shadow(0 0 30px rgba(255,140,60,0.9));
-    mask-image: radial-gradient(circle, black 60%, transparent 100%);
-    -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);
-}
+    /* Ефект за неоново "искрене" */
+    @keyframes flicker {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+          0 0 10px #ff6,
+          0 0 25px #ff8c3a,
+          0 0 45px #ff4000,
+          0 0 60px #ff6;
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        text-shadow: none;
+        opacity: 0.5;
+      }
+    }
 
-h1{
-    font-size:34px;
-    color:#ff9b45;
-    margin-bottom:35px;
-    text-shadow:0 0 15px #ff7b00;
-}
+    a.button {
+      display: block;
+      width: 260px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 22px;
+      color: white;
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid #ff8c3a;
+      border-radius: 15px;
+      padding: 12px 0;
+      margin: 10px 0;
+      box-shadow: 0 0 20px #ff8c3a;
+      transition: all 0.2s ease-in-out;
+      animation: electric 1.5s infinite alternate;
+    }
 
-/* ⚡ ЕЛЕКТРИЧЕСКИ НЕОНОВИ БУТОНИ */
-a.button{
-    display:block;
-    margin:20px auto;
-    padding:26px;
-    width:88%;
-    max-width:420px;
-    border-radius:18px;
-    font-size:24px;
-    text-decoration:none;
-    font-weight:bold;
-    color:white;
-    background:linear-gradient(145deg, #000, #1a1a1a);
-    border:2px solid #ff8c3a;
-    box-shadow:0 0 18px #ff8c3a;
-    animation: electric 1.5s infinite alternate;
-    transition:0.2s;
-}
+    a.button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 40px #ffb64a;
+    }
 
-a.button:hover{
-    transform:scale(1.08);
-    box-shadow:0 0 40px #ffb46a;
-}
-
-@keyframes electric{
-    0%{box-shadow:0 0 12px #ff8c3a;}
-    50%{box-shadow:0 0 35px #ffd1a3;}
-    100%{box-shadow:0 0 16px #ff8c3a;}
-}
-</style>
+    @keyframes electric {
+      0% { box-shadow: 0 0 10px #ff8c3a; }
+      50% { box-shadow: 0 0 35px #ffd13a; }
+      100% { box-shadow: 0 0 20px #ff8c3a; }
+    }
+  </style>
 </head>
-
 <body>
-<div class="overlay">
 
-<h1 style="font-size: 40px; color: #ff9b45; text-shadow: 0 0 25px #ff6f00; letter-spacing: 2px; font-weight: bold;">
-  ILIOPA TATTOO
-</h1>
+  <h1>ILIOPA TATTOO</h1>
 
-<a class="button" href="https://instagram.com/iliopa" target="_blank">📸 Instagram</a>
-<a class="button" href="https://www.tiktok.com/@iliopatattoo?_r=1&_t=ZN-923RDbzeupi" target="_blank">🎬 TikTok</a>
-<a class="button" href="https://share.google/WArYqvhvZqhWpKZ1C" target="_blank">📍 Google Maps</a>
-<a class="button" href="https://facebook.com/iliopatattoo" target="_blank">📘 Facebook</a>
+  <a class="button" href="https://instagram.com/iliopa" target="_blank">📸 Instagram</a>
+  <a class="button" href="https://www.tiktok.com/@iliopatattoo?_r=1&_t=ZN-923RDbzeupi" target="_blank">🎬 TikTok</a>
+  <a class="button" href="https://share.google/WArYqvhvZqhWpKZ1C" target="_blank">📍 Google Maps</a>
+  <a class="button" href="https://facebook.com/iliopatattoo" target="_blank">📘 Facebook</a>
 
-</div>
 </body>
 </html>
