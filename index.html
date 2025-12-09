@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iliopa Tattoo</title>
+
   <style>
     body {
       margin: 0;
@@ -56,16 +57,75 @@
       margin-bottom: 50px;
       z-index: 10;
     }
+
+    .browser-warning {
+      position: fixed;
+      top: 10px;
+      background: black;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: none;
+      z-index: 999;
+    }
   </style>
 </head>
+
 <body>
 
-  <div class="buttons">
-    <a class="button" href="https://www.instagram.com/iliopa/">📸 Instagram</a>
-    <a class="button" href="https://www.tiktok.com/@iliopatattoo">🎬 TikTok</a>
-    <a class="button" href="https://share.google/WArYqvhvZqhWpKZ1C">📍 Google Maps</a>
-    <a class="button" href="https://www.facebook.com/iliopatattoo">📘 Facebook</a>
+  <div class="browser-warning" id="browserWarning">
+    ⚠️ Ако си в Messenger – отвори в Safari
   </div>
+
+  <div class="buttons">
+
+    <!-- ✅ Instagram -->
+    <a class="button" href="instagram://user?username=iliopa"
+       onclick="setTimeout(()=>{window.location.href='https://www.instagram.com/iliopa?igsh=ZWM2c3gweDZzNmUw&utm_source=qr'},500)">
+       📸 Instagram
+    </a>
+
+    <!-- ✅ TikTok -->
+    <a class="button" href="tiktok://user?username=iliopatattoo"
+       onclick="setTimeout(()=>{window.location.href='https://www.tiktok.com/@iliopatattoo'},500)">
+       🎬 TikTok
+    </a>
+
+    <!-- ✅ WhatsApp -->
+    <a class="button" href="whatsapp://send?phone=359882267434"
+       onclick="setTimeout(()=>{window.location.href='https://wa.me/359882267434'},500)">
+       💬 WhatsApp
+    </a>
+
+    <!-- ✅ Viber -->
+    <a class="button" href="viber://chat?number=359882267434"
+       onclick="setTimeout(()=>{window.location.href='https://viber.me/359882267434'},500)">
+       💜 Viber
+    </a>
+
+    <!-- ✅ Обади се -->
+    <a class="button" href="tel:+359882267434">
+       📞 Обади се
+    </a>
+
+    <!-- ✅ Google Maps -->
+    <a class="button" href="https://share.google/WArYqvhvZqhWpKZ1C">
+       📍 Google Maps
+    </a>
+
+    <!-- ✅ Facebook -->
+    <a class="button" href="https://www.facebook.com/iliopatattoo">
+       📘 Facebook
+    </a>
+
+  </div>
+
+  <script>
+    if (navigator.userAgent.includes("FBAN") || navigator.userAgent.includes("FBAV")) {
+      document.getElementById("browserWarning").style.display = "block";
+    }
+  </script>
 
 </body>
 </html>
