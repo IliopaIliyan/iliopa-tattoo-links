@@ -1,136 +1,117 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="bg">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iliopa Tattoo</title>
-
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-
-      /* ✅ Преместваме фона нагоре, за да се виждат окото и надписа */
-      background: url('logo.png.jpg') no-repeat center top fixed;
-      background-size: cover;
-
-      animation: logoPulse 3s ease-in-out infinite;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
-
-    @keyframes logoPulse {
-      0%, 100% { filter: brightness(1); }
-      50% { filter: brightness(1.15) contrast(1.1) saturate(1.1); }
-    }
-
-    /* ✅ По-компактни бутони */
-    a.button {
-      display: block;
-      width: 260px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 20px;
-      color: white;
-      background: rgba(0, 0, 0, 0.65);
-      border: 2px solid #ff8c3a;
-      border-radius: 14px;
-      padding: 10px 0;
-      margin: 7px 0;
-      box-shadow: 0 0 18px #ff8c3a;
-      transition: all 0.25s ease-in-out;
-      animation: electric 2s infinite alternate;
-      backdrop-filter: blur(2px);
-    }
-
-    a.button:hover {
-      transform: scale(1.06);
-      box-shadow: 0 0 40px #ffb64a;
-    }
-
-    @keyframes electric {
-      0% { box-shadow: 0 0 14px #ff8c3a; }
-      50% { box-shadow: 0 0 32px #ffd13a; }
-      100% { box-shadow: 0 0 18px #ff8c3a; }
-    }
-
-    /* ✅ Вдигаме бутоните малко надолу */
-    .buttons {
-      margin-bottom: 25px;
-      z-index: 10;
-    }
-
-    .browser-warning {
-      position: fixed;
-      top: 10px;
-      background: black;
-      color: white;
-      padding: 8px 14px;
-      border-radius: 12px;
-      font-size: 14px;
-      display: none;
-      z-index: 999;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iliopa Tattoo</title>
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: #000;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.video-background {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 0;
+  pointer-events: none;
+}
+.buttons {
+  position: relative;
+  z-index: 2;
+  width: 85%;
+  max-width: 380px;
+  padding-bottom: 25px;
+}
+.button {
+  display: block;
+  width: 100%;
+  padding: 15px 10px;
+  margin: 12px 0;
+  text-align: center;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  background: rgba(0,0,0,0.75);
+  border: 2px solid #ff8c3a;
+  border-radius: 16px;
+  box-shadow: 0 0 18px #ff8c3a;
+  animation: electric 2s infinite;
+  backdrop-filter: blur(2px);
+}
+.button:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.button:nth-child(3) {
+  animation-delay: 0.8s;
+}
+.button:nth-child(4) {
+  animation-delay: 1.2s;
+}
+@keyframes electric {
+  0%, 100% {
+    box-shadow: 0 0 12px #ff8c3a;
+  }
+  35% {
+    box-shadow: 0 0 25px #009dff;
+  }
+  65% {
+    box-shadow: 0 0 30px #ff8c3a;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    animation: none;
+  }
+}
+</style>
 </head>
-
 <body>
 
-  <div class="browser-warning" id="browserWarning">
-    ⚠️ Ако си в Messenger – отвори в Safari
-  </div>
+<video class="video-background"
+autoplay muted loop playsinline
+preload="auto"
+poster="logo.png.jpg"
+src="3FCBDC53-5EB9-426B-8A3F-84ACEBCAFE99.mov">
+</video>
 
-  <div class="buttons">
+<div class="buttons">
 
-    <!-- ✅ Instagram -->
-    <a class="button" href="instagram://user?username=iliopa"
-       onclick="setTimeout(()=>{window.location.href='https://www.instagram.com/iliopa?igsh=ZWM2c3gweDZzNmUw&utm_source=qr'},500)">
-       📸 Instagram
-    </a>
+<a class="button"
+href="https://instagram.com/iliopa"
+target="_blank" rel="noopener">
+📸 Instagram
+</a>
 
-    <!-- ✅ TikTok – без login -->
-    <a class="button" href="https://www.tiktok.com/@iliopatattoo">
-       🎬 TikTok
-    </a>
+<a class="button"
+href="https://www.tiktok.com/@iliopatattoo"
+target="_blank" rel="noopener">
+🎬 TikTok
+</a>
 
-    <!-- ✅ WhatsApp -->
-    <a class="button" href="whatsapp://send?phone=359882267434"
-       onclick="setTimeout(()=>{window.location.href='https://wa.me/359882267434'},500)">
-       💬 WhatsApp
-    </a>
+<a class="button"
+href="https://share.google/WArYqvhvZqhWpKZ1C"
+target="_blank" rel="noopener">
+📍 Google Maps
+</a>
 
-    <!-- ✅ Viber -->
-    <a class="button" href="viber://chat?number=359882267434"
-       onclick="setTimeout(()=>{window.location.href='https://viber.me/359882267434'},500)">
-       💜 Viber
-    </a>
+<a class="button"
+href="https://facebook.com/iliopatattoo"
+target="_blank" rel="noopener">
+📘 Facebook
+</a>
 
-    <!-- ✅ Обади се -->
-    <a class="button" href="tel:+359882267434">
-       📞 Обади се
-    </a>
-
-    <!-- ✅ Google Maps -->
-    <a class="button" href="https://share.google/WArYqvhvZqhWpKZ1C">
-       📍 Google Maps
-    </a>
-
-    <!-- ✅ Facebook -->
-    <a class="button" href="https://www.facebook.com/iliopatattoo">
-       📘 Facebook
-    </a>
-
-  </div>
-
-  <script>
-    if (navigator.userAgent.includes("FBAN") || navigator.userAgent.includes("FBAV")) {
-      document.getElementById("browserWarning").style.display = "block";
-    }
-  </script>
-
+</div>
 </body>
 </html>
