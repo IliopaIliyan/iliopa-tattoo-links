@@ -17,16 +17,24 @@ body {
   font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
-  align-items: flex-end;.video-background {
+  align-items: flex-end;
+}
+
+.video-background {
   position: fixed;
-  top: 0;
-  left: 5%;
-  width: 90%;
-  height: 56dvh;
+  top: -20vh;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  object-position: center;
   z-index: 0;
   pointer-events: none;
+  transform-origin: center center;
+  transition: transform 0.25s ease;
+}
+
+.video-background.small-logo {
+  transform: scale(0.70);
 }
 
 .buttons {
@@ -83,13 +91,17 @@ body {
   .button {
     animation: none;
   }
+  .video-background {
+    transition: none;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<video class="video-background"
+<video id="backgroundVideo"
+class="video-background"
 autoplay muted loop playsinline
 preload="auto"
 poster="logo.png.jpg"
@@ -123,5 +135,20 @@ target="_blank" rel="noopener">
 </a>
 
 </div>
+
+<script>
+const video = document.getElementById("backgroundVideo");
+
+function adjustLogo() {
+  video.classList.toggle(
+    "small-logo",
+    video.currentTime >= 2.9
+  );
+  requestAnimationFrame(adjustLogo);
+}
+
+adjustLogo();
+</script>
+
 </body>
 </html>
