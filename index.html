@@ -208,6 +208,17 @@ let burstStart = null;
 let activated = new Set();
 let lastFrame = 0;
 
+function adjustSpeed() {
+  const t = video.currentTime;
+
+  const speed =
+    t >= 0.5 && t < 2.0 ? 0.5 : 1;
+
+  if (video.playbackRate !== speed) {
+    video.playbackRate = speed;
+  }
+}
+
 function resize() {
   const dpr = Math.min(devicePixelRatio || 1, 2);
 
@@ -280,6 +291,8 @@ function borderPoint(r, p) {
 }
 
 function animate(now) {
+
+  adjustSpeed();
 
   const dt = lastFrame
     ? Math.min((now - lastFrame) / 16.67, 2)
