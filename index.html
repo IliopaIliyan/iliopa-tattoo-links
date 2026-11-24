@@ -37,38 +37,31 @@ body {
   pointer-events: none;
   transform-origin: center center;
   transition: transform 0.25s ease;
+}
 
-  -webkit-mask-image:
-    linear-gradient(to bottom,
-      transparent 0%,
-      black 12%,
-      black 88%,
-      transparent 100%),
-    linear-gradient(to right,
-      transparent 0%,
-      black 8%,
-      black 92%,
-      transparent 100%);
-
-  -webkit-mask-composite: source-in;
-
-  mask-image:
-    linear-gradient(to bottom,
-      transparent 0%,
-      black 12%,
-      black 88%,
-      transparent 100%),
-    linear-gradient(to right,
-      transparent 0%,
-      black 8%,
-      black 92%,
-      transparent 100%);
-
-  mask-composite: intersect;
+.video-background.explosion {
+  object-fit: cover;
+  transform: scale(1.15);
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
 .video-background.small-logo {
   transform: scale(0.70);
+}
+
+#flash {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    rgba(255,235,180,0.65),
+    rgba(255,160,40,0.28) 35%,
+    transparent 75%
+  );
 }
 
 .buttons {
@@ -182,7 +175,7 @@ body {
     transition: none;
   }
 
-  #sparks {
+  #sparks, #flash {
     display: none;
   }
 }
@@ -198,6 +191,8 @@ preload="auto"
 poster="logo.png.jpg"
 src="3FCBDC53-5EB9-426B-8A3F-84ACEBCAFE99.mov">
 </video>
+
+<div id="flash"></div>
 
 <canvas id="sparks"></canvas>
 
@@ -232,6 +227,7 @@ target="_blank" rel="noopener">
 <script>
 const video = document.getElementById("backgroundVideo");
 const canvas = document.getElementById("sparks");
+const flash = document.getElementById("flash");
 const ctx = canvas.getContext("2d");
 const buttons = [...document.querySelectorAll(".button")];
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
@@ -250,6 +246,35 @@ function adjustSpeed() {
 
   if (video.playbackRate !== speed) {
     video.playbackRate = speed;
+  }
+}
+
+function adjustVideo() {
+
+  const t = video.currentTime;
+
+  const exploding =
+    t >= 2.65 && t < 3.55;
+
+  video.classList.toggle(
+    "explosion", exploding
+  );
+
+  video.classList.toggle(
+    "small-logo", t >= 3.55
+  );
+
+  if (exploding && !reduced.matches) {
+
+    const progress = (t - 2.65) / 0.90;
+
+    flash.style.opacity =
+      Math.sin(progress * Math.PI) * 0.8;
+
+  } else {
+
+    flash.style.opacity = 0;
+
   }
 }
 
@@ -327,6 +352,7 @@ function borderPoint(r, p) {
 function animate(now) {
 
   adjustSpeed();
+  adjustVideo();
 
   const dt = lastFrame
     ? Math.min((now - lastFrame) / 16.67, 2)
@@ -335,8 +361,6 @@ function animate(now) {
   lastFrame = now;
 
   const t = video.currentTime;
-
-  video.classList.toggle("small-logo", t >= 2.9);
 
   if (!reduced.matches &&
       previousTime < 2.9 && t >= 2.9) {
