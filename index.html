@@ -237,8 +237,8 @@ function spark(x, y, vx, vy, strong = false) {
     life: 1,
     decay: 0.015 + Math.random() * 0.025,
     size: strong
-      ? 1.5 + Math.random() * 2.5
-      : 0.7 + Math.random() * 2,
+      ? 0.45 + Math.random() * 0.75
+      : 0.21 + Math.random() * 0.6,
     color,
     strong
   });
@@ -350,11 +350,11 @@ function animate(now) {
 
     ctx.globalAlpha = Math.max(0, p.life);
 
-    const tail = p.strong ? 4.5 : 2;
+    const tail = p.strong ? 1.35 : 0.6;
 
     ctx.strokeStyle = p.color;
     ctx.shadowColor = p.color;
-    ctx.shadowBlur = p.strong ? 22 : 10;
+    ctx.shadowBlur = p.strong ? 7 : 3;
     ctx.lineWidth = p.size * 1.8;
     ctx.lineCap = "round";
 
@@ -370,14 +370,14 @@ function animate(now) {
 
       ctx.strokeStyle = "#ffffff";
       ctx.shadowColor = p.color;
-      ctx.shadowBlur = 8;
+      ctx.shadowBlur = 3;
       ctx.lineWidth = p.size * 0.65;
 
       ctx.beginPath();
       ctx.moveTo(p.x, p.y);
       ctx.lineTo(
-        p.x - p.vx * 2.5,
-        p.y - p.vy * 2.5
+        p.x - p.vx * 0.75,
+        p.y - p.vy * 0.75
       );
       ctx.stroke();
     }
