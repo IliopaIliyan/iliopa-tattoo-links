@@ -241,7 +241,6 @@ const buttons = [...document.querySelectorAll(".button")];
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 
 let particles = [];
-let flames = [];
 let previousTime = 0;
 let burstStart = null;
 let activated = new Set();
@@ -259,6 +258,7 @@ function adjustSpeed() {
 }
 
 function adjustVideo() {
+
   const t = video.currentTime;
 
   const exploding =
@@ -315,111 +315,11 @@ function spark(x, y, vx, vy, strong = false) {
     life: 1,
     decay: 0.015 + Math.random() * 0.025,
     size: strong
-      ? (0.45 + Math.random() * 0.75) * 0.85 * 0.95
+      ? (0.45 + Math.random() * 0.75) * 0.85
       : 0.21 + Math.random() * 0.6,
     color,
     strong
   });
-}
-
-function createFlame(x, y) {
-
-  if (flames.length >= 18) return;
-
-  flames.push({
-    x,
-    y,
-    width: 4 + Math.random() * 7,
-    height: 10 + Math.random() * 20,
-    life: 1,
-    decay: 0.022 + Math.random() * 0.025,
-    phase: Math.random() * Math.PI * 2,
-    lean: (Math.random() - 0.5) * 12
-  });
-}
-
-function drawFlame(f, now, dt) {
-
-  const life = Math.max(0, f.life);
-
-  const envelope = Math.sin(life * Math.PI);
-
-  const flicker =
-    0.8 + Math.sin(now * 0.025 + f.phase) * 0.2;
-
-  const h = f.height * envelope * flicker;
-  const w = f.width * envelope;
-
-  if (h < 0.5 || w < 0.1) {
-    f.life -= f.decay * dt;
-    return;
-  }
-
-  const sway =
-    Math.sin(now * 0.018 + f.phase) * 5
-    + f.lean * envelope;
-
-  ctx.save();
-
-  ctx.translate(f.x, f.y);
-  ctx.globalAlpha = envelope * 0.85;
-
-  const gradient = ctx.createLinearGradient(
-    0, 0, sway, -h
-  );
-
-  gradient.addColorStop(0, "#fff5c9");
-  gradient.addColorStop(0.25, "#ffdc65");
-  gradient.addColorStop(0.55, "#ff8800");
-  gradient.addColorStop(0.8, "#ff4200");
-  gradient.addColorStop(1, "rgba(255,50,0,0)");
-
-  ctx.fillStyle = gradient;
-  ctx.shadowColor = "#ff7700";
-  ctx.shadowBlur = 8;
-
-  ctx.beginPath();
-
-  ctx.moveTo(-w * 0.5, 0);
-
-  ctx.bezierCurveTo(
-    -w, -h * 0.25,
-    sway + w * 0.35, -h * 0.55,
-    sway, -h
-  );
-
-  ctx.bezierCurveTo(
-    sway - w * 0.7, -h * 0.55,
-    w * 1.2, -h * 0.3,
-    w * 0.5, 0
-  );
-
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.globalAlpha = envelope * 0.65;
-  ctx.fillStyle = "#fff1b0";
-  ctx.shadowBlur = 4;
-
-  ctx.beginPath();
-  ctx.moveTo(-w * 0.18, 0);
-
-  ctx.quadraticCurveTo(
-    -w * 0.4, -h * 0.25,
-    sway * 0.4, -h * 0.55
-  );
-
-  ctx.quadraticCurveTo(
-    w * 0.45, -h * 0.2,
-    w * 0.18, 0
-  );
-
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.restore();
-
-  f.life -= f.decay * dt;
 }
 
 function startBurst(now) {
@@ -515,37 +415,6 @@ function animate(now) {
             true
           );
         }
-
-        if (
-          progress < 0.8 &&
-          Math.random() < 0.10 * dt
-        ) {
-
-          const position = Math.random();
-
-          let fx, fy;
-
-          if (position < 0.65) {
-
-            fx = r.left + 16 +
-              Math.random() * (r.width - 32);
-
-            fy = r.top;
-
-          } else if (position < 0.825) {
-
-            fx = r.left;
-            fy = r.top + Math.random() * r.height;
-
-          } else {
-
-            fx = r.right;
-            fy = r.top + Math.random() * r.height;
-
-          }
-
-          createFlame(fx, fy);
-        }
       }
     });
 
@@ -554,24 +423,18 @@ function animate(now) {
 
   ctx.globalCompositeOperation = "lighter";
 
-  flames = flames.filter(f => f.life > 0);
-
-  flames.forEach(f => {
-    drawFlame(f, now, dt);
-  });
-
   particles = particles.filter(p => p.life > 0);
 
   particles.forEach(p => {
 
     ctx.globalAlpha = Math.max(0, p.life);
 
-    const tail = p.strong ? 1.090125 : 0.6;
+    const tail = p.strong ? 1.1475 : 0.6;
     const speed = p.strong ? 1.5 : 1;
 
     ctx.strokeStyle = p.color;
     ctx.shadowColor = p.color;
-    ctx.shadowBlur = p.strong ? 5.6525 : 3;
+    ctx.shadowBlur = p.strong ? 5.95 : 3;
     ctx.lineWidth = p.size * 1.8;
     ctx.lineCap = "round";
 
@@ -583,4 +446,37 @@ function animate(now) {
     );
     ctx.stroke();
 
-    if
+    if (p.strong) {
+
+      ctx.strokeStyle = "#ffffff";
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 2.55;
+      ctx.lineWidth = p.size * 0.65;
+
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(
+        p.x - p.vx * 0.6375,
+        p.y - p.vy * 0.6375
+      );
+      ctx.stroke();
+    }
+
+    p.x += p.vx * dt * speed;
+    p.y += p.vy * dt * speed;
+    p.vy += 0.07 * dt;
+    p.life -= p.decay * dt;
+  });
+
+  ctx.globalAlpha = 1;
+  ctx.shadowBlur = 0;
+  ctx.globalCompositeOperation = "source-over";
+
+  requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+</script>
+
+</body>
+</html>
