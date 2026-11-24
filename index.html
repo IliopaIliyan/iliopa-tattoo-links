@@ -476,7 +476,158 @@ function animate(now) {
 }
 
 requestAnimationFrame(animate);
-</script>
+</script><script>
+(() => {
+  const originalSpark = spark;
 
-</body>
+  spark = function(x, y, vx, vy, strong = false) {
+    const count = particles.length;
+
+    originalSpark(x, y, vx, vy, strong);
+
+    if (strong && particles.length > count) {
+      particles[particles.length - 1].size *= 0.95;
+    }
+  };
+
+  const fireCanvas = document.createElement("canvas");
+
+  Object.assign(fireCanvas.style, {
+    position: "fixed",
+    inset: "0",
+    width: "100%",
+    height: "100%",
+    pointerEvents: "none",
+    zIndex: "6"
+  });
+
+  document.body.appendChild(fireCanvas);
+
+  const fireCtx = fireCanvas.getContext("2d");
+
+  if (!fireCtx) return;
+
+  let fire = [];
+  let last = 0;
+
+  function resizeFire() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+
+    fireCanvas.width = innerWidth * dpr;
+    fireCanvas.height = innerHeight * dpr;
+
+    fireCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  resizeFire();
+
+  window.addEventListener("resize", resizeFire);
+
+  function addFire(x, y) {
+    if (fire.length >= 65) return;
+
+    fire.push({
+      x: x + (Math.random() - 0.5) * 6,
+      y: y,
+      vx: (Math.random() - 0.5) * 0.9,
+      vy: -0.6 - Math.random() * 1.1,
+      size: 3 + Math.random() * 5,
+      life: 1,
+      decay: 0.035 + Math.random() * 0.025,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+
+  function animateFire(now) {
+    requestAnimationFrame(animateFire);
+
+    const dt = last
+      ? Math.min((now - last) / 16.67, 2)
+      : 1;
+
+    last = now;
+
+    fireCtx.clearRect(0, 0, innerWidth, innerHeight);
+
+    if (reduced.matches) {
+      fire = [];
+      return;
+    }
+
+    if (burstStart !== null) {
+      const elapsed = now - burstStart;
+
+      buttons.forEach((button, i) => {
+        const delay = 180 + i * 330;
+        const progress = (elapsed - delay) / 900;
+
+        if (progress >= 0 && progress < 0.85) {
+          const r = button.getBoundingClientRect();
+
+          if (Math.random() < 0.09 * dt) {
+            const x = r.left + 18 +
+              Math.random() * (r.width - 36);
+
+            for (let j = 0; j < 5; j++) {
+              addFire(x, r.top);
+            }
+          }
+        }
+      });
+    }
+
+    fireCtx.globalCompositeOperation = "lighter";
+
+    fire = fire.filter(f => f.life > 0);
+
+    fire.forEach(f => {
+      const life = Math.max(0, f.life);
+
+      const radius = Math.max(
+        0.2, f.size * life
+      );
+
+      const glow = fireCtx.createRadialGradient(
+        f.x, f.y, 0,
+        f.x, f.y, radius * 2
+      );
+
+      glow.addColorStop(0, "#fff5cf");
+      glow.addColorStop(0.2, "#ffcc55");
+      glow.addColorStop(0.45, "#ff7700");
+      glow.addColorStop(0.75, "rgba(255,45,0,0.3)");
+      glow.addColorStop(1, "rgba(255,30,0,0)");
+
+      fireCtx.save();
+
+      fireCtx.globalAlpha = life * 0.75;
+      fireCtx.fillStyle = glow;
+
+      fireCtx.beginPath();
+      fireCtx.ellipse(
+        f.x, f.y,
+        radius,
+        radius * 2,
+        0, 0, Math.PI * 2
+      );
+
+      fireCtx.fill();
+      fireCtx.restore();
+
+      f.x += (
+        f.vx +
+        Math.sin(now * 0.02 + f.phase) * 0.4
+      ) * dt;
+
+      f.y += f.vy * dt;
+      f.life -= f.decay * dt;
+    });
+
+    fireCtx.globalAlpha = 1;
+    fireCtx.globalCompositeOperation = "source-over";
+  }
+
+  requestAnimationFrame(animateFire);
+})();
+</script></body>
 </html>
